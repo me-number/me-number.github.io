@@ -12,7 +12,7 @@ import {
   startTransition,
   resetErrorBoundaries
 } from "solid-js";
-import { isServer, getRequestEvent } from "solid-js/web";
+import * as web from "solid-js/web";
 import { createBeforeLeave } from "./lifecycle.js";
 import type {
   BeforeLeaveEventArgs,
@@ -470,12 +470,12 @@ export function createRouterContext(
     lastTransitionTarget = newTarget;
 
     startTransition(() => {
-      if (lastTransitionTarget !== newTarget) return;
+        if (lastTransitionTarget !== newTarget) return;
 
-      setReference(lastTransitionTarget.value);
-      setState(lastTransitionTarget.state);
-      resetErrorBoundaries();
-      if (!isServer) submissions[1](subs => subs.filter(s => s.pending));
+        setReference(lastTransitionTarget.value);
+        setState(lastTransitionTarget.state);
+        resetErrorBoundaries();
+        if (!web.isServer) submissions[1](subs => subs.filter(s => s.pending));
     }).finally(() => {
       if (lastTransitionTarget !== newTarget) return;
 
@@ -493,7 +493,7 @@ export function createRouterContext(
   const [state, setState] = createSignal(source().state);
   const location = createLocation(reference, state, utils.queryWrapper);
   const referrers: LocationChange[] = [];
-  const submissions = createSignal<Submission<any, any>[]>(isServer ? initFromFlash() : []);
+  const submissions = createSignal<Submission<any, any>[]>(web.isServer ? initFromFlash() : []);
 
   const matches = createMemo(() => {
     if (typeof options.transformUrl === "function") {
