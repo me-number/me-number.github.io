@@ -1253,6 +1253,15 @@ inject:
   bottom:
     # 自定义js
     # - <script src="/js/xxx"></script>
+    <script>
+         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <script>
+         window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
 
 # CDN
 # Don't modify the following settings unless you know how they work
@@ -1265,7 +1274,7 @@ CDN:
 
   # The CDN provider of third party scripts (第三方 js 的 cdn 配置)
   # option: elemecdn/jsdelivr/unpkg/cdnjs/onmicrosoft/cbd/anheyu/custom
-  third_party_provider: cbd
+  third_party_provider: cdnjs
 
   # Add version number to CDN, true or false
   version: true
