@@ -61,7 +61,7 @@ jobs:
       - name: Remove the existing pre-release
         run: gh release delete ${{ steps.version.outputs.tag_name }} --cleanup-tag --yes || true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Publish pre-release on GitHub
         run: |
@@ -73,7 +73,7 @@ jobs:
             ${{ steps.version.outputs.tag_name }} \
             dist/openlist-frontend-dist-v*-*.tar.gz
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
 permissions:
   contents: write
