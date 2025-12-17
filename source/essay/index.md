@@ -1,6 +1,8 @@
 ---
-title: 人间烟火味，最抚凡人心
-date: 2023-04-13 13:27:12
-
+title: 即刻短文
+date: 2023-11-19 00:00:00
+comments: true
+aside: false
+top_img: false
 type: essay
 ---
