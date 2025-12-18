@@ -486,16 +486,16 @@ rightside:
 # 页脚
 footer:
   # 社交图标
-  information:
-    author: /solitude-demo/img/logo.png
-    left:
-      Github: https://github.com/everfu || fab fa-github # 名称: 链接 || 图标
-      Bsky: https://bsky.app/profile/efu.me || fab fa-bluesky
-      Mail: mailto:o@efu.me || far fa-envelope
-    right:
-      Bilibili: https://space.bilibili.com/1329819902 || fab fa-bilibili
-      Twitter: https://twitter.com/everfu8 || fab fa-twitter
-      Douyin: https://v.douyin.com/iJsLc8jt/ || fab fa-tiktok
+  #information:
+  #  author: /solitude-demo/img/logo.png
+  #  left:
+  #    Github: https://github.com/everfu || fab fa-github # 名称: 链接 || 图标
+   #   Bsky: https://bsky.app/profile/efu.me || fab fa-bluesky
+  #    Mail: mailto:o@efu.me || far fa-envelope
+ #   right:
+  #    Bilibili: https://space.bilibili.com/1329819902 || fab fa-bilibili
+    #  Twitter: https://twitter.com/everfu8 || fab fa-twitter
+    #  Douyin: https://v.douyin.com/iJsLc8jt/ || fab fa-tiktok
   # 友情链接
   #group:
    # 导航:
