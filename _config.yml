@@ -124,6 +124,11 @@ sitemap:
   tags: true
   categories: true
 
+webPushNotification:
+  webpushrKey: "b9d0e19361e95ddc9c8283581756c774"
+  webpushrAuthToken: "116983"
+  trackingCode: "BF6vU_HTi4YK7J68RiF3DFnVAC9dRlm_551BhSb9NGOlK24whlAZqfdI-pWW1sTaWn1zcbkDJS71LMHiY1PpzTM"
+
 search:
   path: search.xml
   field: post
