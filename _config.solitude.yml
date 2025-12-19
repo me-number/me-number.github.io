@@ -258,14 +258,14 @@ post:
     appreciators: /about/ # Reward page
     # Reward Title
     # 打赏标题
-    title:  感谢您的赞赏
+    title:  感谢您的打赏
     desc: # Because of your support, I realize the value of writing articles. / 由于您的支持，我才能够实现写作的价值。
     # Reward list
     # 打赏列表
     list:
-       - name: Github Sponsor
+       - name: 扫码打赏
          qcode: https://s3.qjqq.cn/47/661ba900c4bc1.webp!color
-         url: https://github.com/sponsors/everfu
+         url: https://github.com/sponsors/me-number
          color: var(--efu-black)
 
   # Share icon
