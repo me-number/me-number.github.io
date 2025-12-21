@@ -1214,36 +1214,43 @@ class ServiceStatus {
             }
 
             const data = await response.json();
+            console.log('API返回数据:', data);
             
-            // 检查heartbeatList数据结构
-            if (!data.heartbeatList || Object.keys(data.heartbeatList).length === 0) {
+
+
+
+
+
+
+            if (data.stat !== 'ok') {
+                throw new Error(`API error: ${data.error?.message || 'Unknown error'}`);
+            }
+
+            if (!data.monitors || data.monitors.length === 0) {
+                console.warn('API返回的monitors数组为空');
                 return [];
             }
 
-            // 转换heartbeatList数据格式
-            const services = Object.keys(data.heartbeatList).map(monitorId => {
-                const heartbeats = data.heartbeatList[monitorId];
-                
-                // 获取最新的心跳状态
-                const latestHeartbeat = heartbeats[heartbeats.length - 1];
-                const status = latestHeartbeat ? latestHeartbeat.status : 0;
-                const lastUpdateTime = latestHeartbeat ? latestHeartbeat.time : '';
-                
-                // 计算可用性（从uptimeList获取）
-                const uptimeKey = `${monitorId}_24`;
-                const uptime = data.uptimeList && data.uptimeList[uptimeKey] ? data.uptimeList[uptimeKey] : 0;
-                
-                return {
-                    id: monitorId,
+
+
+
+            // 转换UptimeRobot数据格式
+            const services = data.monitors.map(monitor => ({
+                id: monitorId,
                     name: `服务 ${monitorId}`,
                     status: this.mapUptimeKumaStatus(status),
                     uptime: parseFloat(uptime || '0'),
                     url: `#${monitorId}`,
                     lastUpdateTime: lastUpdateTime
-                };
-            });
+            }));
 
+            console.log('转换后的服务数据:', services);
             return services;
+
+
+
+
+
 
         } catch (error) {
             console.error('获取服务数据失败:', error);
