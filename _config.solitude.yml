@@ -228,7 +228,7 @@ post:
       licenurl: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans
   ai:
     enable: true
-    modelName: CloudBLOG GPT-1.0
+    modelName: 小七 GPT
   # Article meta information
   # 文章元信息
   meta:
