@@ -991,11 +991,27 @@ document.addEventListener("copy", () => {
   utils.snackbarShow(GLOBAL_CONFIG.lang.copy.success, false, 3000);
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //uptime检测
 class ServiceStatus {
     constructor() {
         this.isInitialized = false;
-        this.apiUrl = 'https://uptime-status.zhang-wentao.cn/api/status';
+        this.apiKey = 'ur3228596-f3b40fd1acb3a53ffb1cc985';//你的api密钥
+        this.apiUrl = 'https://api.uptimerobot.com/v2/getMonitors';
         // 在这里直接配置你的 Uptime Kuma 状态页面URL
         this.statusPageUrl = 'https://uptime-status.zhang-wentao.cn';
         this.config = {
@@ -1173,60 +1189,61 @@ class ServiceStatus {
         }
     }
 
-    async getServicesData() {
+   async getServicesData() {
         try {
-            if (!this.statusPageUrl) {
-                throw new Error('Status page URL not configured');
-            }
-
-            const response = await fetch(this.statusPageUrl, {
-                method: 'GET',
+            console.log('正在调用UptimeRobot API...');
+            
+            // 使用与用户提供的代码相同的请求方式
+            const requestData = {
+                api_key: this.apiKey,
+                format: "json",
+                logs: 1
+            };
+            
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify(requestData)
             });
+
+            console.log('API响应状态:', response.status);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
+            console.log('API返回数据:', data);
             
-            // 检查heartbeatList数据结构
-            if (!data.heartbeatList || Object.keys(data.heartbeatList).length === 0) {
+            if (data.stat !== 'ok') {
+                throw new Error(`API error: ${data.error?.message || 'Unknown error'}`);
+            }
+
+            if (!data.monitors || data.monitors.length === 0) {
+                console.warn('API返回的monitors数组为空');
                 return [];
             }
 
-            // 转换heartbeatList数据格式
-            const services = Object.keys(data.heartbeatList).map(monitorId => {
-                const heartbeats = data.heartbeatList[monitorId];
-                
-                // 获取最新的心跳状态
-                const latestHeartbeat = heartbeats[heartbeats.length - 1];
-                const status = latestHeartbeat ? latestHeartbeat.status : 0;
-                const lastUpdateTime = latestHeartbeat ? latestHeartbeat.time : '';
-                
-                // 计算可用性（从uptimeList获取）
-                const uptimeKey = `${monitorId}_24`;
-                const uptime = data.uptimeList && data.uptimeList[uptimeKey] ? data.uptimeList[uptimeKey] : 0;
-                
-                return {
-                    id: monitorId,
-                    name: `服务 ${monitorId}`,
-                    status: this.mapUptimeKumaStatus(status),
-                    uptime: parseFloat(uptime || '0'),
-                    url: `#${monitorId}`,
-                    lastUpdateTime: lastUpdateTime
-                };
-            });
+            // 转换UptimeRobot数据格式
+            const services = data.monitors.map(monitor => ({
+                id: monitor.id,
+                name: monitor.friendly_name,
+                status: this.mapUptimeStatus(monitor.status),
+                uptime: parseFloat(monitor.all_time_uptime_ratio || '0'),
+                url: monitor.url
+            }));
 
+            console.log('转换后的服务数据:', services);
             return services;
 
         } catch (error) {
-            console.error('获取服务数据失败:', error);
+            console.error('UptimeRobot API调用失败:', error);
             throw error;
         }
     }
+
 
     mapUptimeKumaStatus(uptimeStatus) {
         // Uptime Kuma状态映射
