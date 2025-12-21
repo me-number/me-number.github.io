@@ -199,3 +199,31 @@ window.oncontextmenu = (ele) => {
     addEventListener(rm.menuItems.copyImg, "click", () => rm.copyImage() && rm.hideRightMenu());
     addEventListener(rm.menuItems.copyLink, "click", () => rm.copyText(rm.domhref) && rm.hideRightMenu());
 })();
+
+
+// 页面加载时初始化右键菜单模式按钮文本
+document.addEventListener('DOMContentLoaded', function () {
+    // 检测当前主题模式
+    const isDarkMode = document.body.classList.contains('dark-mode') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.getAttribute('data-theme') === 'dark';
+
+    // 初始化右键菜单模式按钮文本
+    if (rm.menuItems.mode) {
+        rm.mode(isDarkMode);
+    }
+});
+
+// 注册主题变化监听，确保主题切换时右键菜单按钮文本同步更新
+if (window.globalFn) {
+    if (!window.globalFn.themeChange) {
+        window.globalFn.themeChange = {};
+    }
+
+    // 添加右键菜单的主题变化监听函数
+    window.globalFn.themeChange.rightMenuMode = function (mode) {
+        if (rm.menuItems.mode) {
+            rm.mode(mode === 'dark');
+        }
+    };
+}
