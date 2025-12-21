@@ -995,9 +995,9 @@ document.addEventListener("copy", () => {
 class ServiceStatus {
     constructor() {
         this.isInitialized = false;
-        this.apiUrl = 'Uptime Kuma 状态页面URL  api';
+        this.apiUrl = 'https://uptime-status.zhang-wentao.cn/api/status';
         // 在这里直接配置你的 Uptime Kuma 状态页面URL
-        this.statusPageUrl = 'Uptime Kuma 状态页面URL  api';
+        this.statusPageUrl = 'https://uptime-status.zhang-wentao.cn/api/status';
         this.config = {
             statusText: {
                 normal: '服务正常',
