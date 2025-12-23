@@ -60,6 +60,7 @@
   --efu-music var(--efu-main)
 
 body
+  touch-action: manipulation
   position relative
   min-height 100%
   background var(--efu-background)
@@ -72,6 +73,7 @@ body
   if !hexo-config('copy.enable')
     user-select none
     -webkit-user-select none
+    
 
 *
   box-sizing border-box
