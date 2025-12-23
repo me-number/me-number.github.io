@@ -107,3 +107,9 @@ deploy:
   repo: git@github.com:me-number/CloudBLOG.git
   # 分支
   branch: main
+
+# APlayer
+# https://github.com/MoePlayer/hexo-tag-aplayer/blob/master/docs/README-zh_cn.md
+aplayer:
+  meting: true
+  asset_inject: false
