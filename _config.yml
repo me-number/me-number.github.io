@@ -101,4 +101,9 @@ theme: landscape
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  # 类型
+  type: git
+  # 仓库
+  repo: git@github.com:me-number/CloudBLOG.git
+  # 分支
+  branch: main
