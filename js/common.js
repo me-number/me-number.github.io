@@ -105,11 +105,11 @@ document.addEventListener("DOMContentLoaded", function() {
   })
 
 /* =======================
-  // Zoom Image (支持 post-head)
+  // Zoom Image (仅通过 .post-image 识别)
   ======================= */
-  // 1. 在选择器中加入 .post-head img
-  const lightense = document.querySelector(".post-head img, .page__content img, .post__content img, .gallery__image img"),
-  imageLink = document.querySelectorAll(".post-head a img, .page__content a img, .post__content a img, .gallery__image a img");
+  // 1. 移除 .post-head，仅保留 .post-image
+  const lightense = document.querySelector(".post-image img, .page__content img, .post__content img, .gallery__image img"),
+  imageLink = document.querySelectorAll(".post-image a img, .page__content a img, .post__content a img, .gallery__image a img");
 
   if (imageLink) {
     for (var i = 0; i < imageLink.length; i++) imageLink[i].parentNode.classList.add("image-link");
@@ -117,8 +117,8 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   if (lightense) {
-    // 2. 在初始化函数中也同步加入 .post-head img:not(.no-lightense)
-    Lightense(".post-head img:not(.no-lightense), .page__content img:not(.no-lightense), .post__content img:not(.no-lightense), .gallery__image img:not(.no-lightense)", {
+    // 2. 同样在初始化中仅使用 .post-image
+    Lightense(".post-image img:not(.no-lightense), .page__content img:not(.no-lightense), .post__content img:not(.no-lightense), .gallery__image img:not(.no-lightense)", {
     padding: 60,
     offset: 30
     });
