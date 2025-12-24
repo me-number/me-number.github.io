@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
+
 gem "bundler"
 gem "jekyll"
 gem "jekyll-paginate"
 gem "jekyll-sitemap"
-gem 'jekyll-pwa-plugin'
+
+group :jekyll_plugins do
+  gem 'jekyll-pwa-plugin'
+end
