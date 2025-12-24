@@ -1,43 +1,40 @@
----
-layout: none
----
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js');
+// service-worker.js
 
-const { registerRoute } = workbox.routing;
-const { CacheFirst, NetworkFirst, StaleWhileRevalidate } = workbox.strategies;
-
+// set names for both precache & runtime cache
 workbox.core.setCacheNameDetails({
-  prefix: 'svrooij.io',
-  suffix: '{{ site.time | date: "%Y-%m" }}'
+    prefix: 'CloudBLOG',
+    suffix: 'v1.0',
+    precache: 'precache',
+    runtime: 'runtime-cache'
 });
 
-// 首页与分页统一使用 NetworkFirst 策略，确保内容更新
-registerRoute(
-  ({url}) => url.pathname === '/' || url.pathname.match(/\/page[0-9]/),
-  new NetworkFirst()
+// let Service Worker take control of pages ASAP
+workbox.core.skipWaiting();
+workbox.core.clientsClaim();
+
+// let Workbox handle our precache list
+workbox.precaching.precacheAndRoute(self.__precacheManifest);
+
+// use `NetworkFirst` strategy for html
+workbox.routing.registerRoute(
+    /\.html$/,
+    new workbox.strategies.NetworkFirst()
 );
 
-// 文章页面使用 StaleWhileRevalidate：先展示缓存，后台静默更新
-registerRoute(
-  new RegExp('/\\d{4}/\\d{2}/\\d{2}/.+'),
-  new StaleWhileRevalidate()
+// use `NetworkFirst` strategy for css and js
+workbox.routing.registerRoute(
+    /\.(?:js|css)$/,
+    new workbox.strategies.NetworkFirst()
 );
 
-// 静态资源预缓存
-workbox.precaching.precacheAndRoute([
-  {% for post in site.posts limit:12 -%}
-  { url: '{{ post.url }}', revision: '{{ post.date | date: "%Y-%m-%d"}}' },
-  {% endfor -%}
-  { url: '/', revision: '{{ site.time | date: "%Y%m%d%H" }}' },
-  { url: '/assets/css/index.css', revision: '{{ site.time | date: "%Y%m%d%H" }}' }
-]);
+// use `CacheFirst` strategy for images
+workbox.routing.registerRoute(
+    /assets\/(img|icons)/,
+    new workbox.strategies.CacheFirst()
+);
 
-// 媒体与静态资源统一使用 CacheFirst
-registerRoute(
-  ({request, url}) => request.destination === 'image' || url.pathname.includes('/assets/'),
-  new CacheFirst({
-    plugins: [
-      { cacheableResponse: { statuses: [0, 200] } }
-    ],
-  })
+// use `StaleWhileRevalidate` third party files
+workbox.routing.registerRoute(
+    /^https?:\/\/cdn.staticfile.org/,
+    new workbox.strategies.StaleWhileRevalidate()
 );
