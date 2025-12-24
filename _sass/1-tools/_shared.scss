@@ -1,13 +1,13 @@
-/**
- * 引入变量定义
- * 注意：根据你的目录结构，路径通常指向 0-settings/_variables.scss
- */
 @use "../0-settings/variables" as *;
+
+/**
+ * 如果上方 @use 引入失败，此处设置保底默认值，防止构建崩溃
+ */
+$base-spacing-unit: 20px !default;
 
 /**
  * Shared declarations for certain elements.
  */
-
 h1, h2, h3, h4, h5, h6,
 ul, ol, dl,
 blockquote, p, address,
@@ -18,11 +18,9 @@ pre {
   margin-bottom: 32px;
 }
 
-
 /**
  * Consistent indentation for lists.
  */
-
 ul, ol,
 dd {
   /* 现在可以正常识别 $base-spacing-unit 了 */
