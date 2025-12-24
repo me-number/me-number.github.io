@@ -103,26 +103,45 @@ document.addEventListener("DOMContentLoaded", function() {
   var lazyLoadInstance = new LazyLoad({
     elements_selector: ".lazy"
   })
-
+  
 /* =======================
-  // Zoom Image (仅通过 .post-image 识别)
+  // Zoom Image (整合优化版 - 2025)
   ======================= */
-  // 1. 移除 .post-head，仅保留 .post-image
-  const lightense = document.querySelector(".post-image img, .page__content img, .post__content img, .gallery__image img"),
-  imageLink = document.querySelectorAll(".post-image a img, .page__content a img, .post__content a img, .gallery__image a img");
+document.addEventListener("DOMContentLoaded", function() {
+  
+  const baseSelector = ".post-image img, .page__content img, .post__content img, .gallery__image img";
+  const linkSelector = ".post-image a img, .page__content a img, .post__content a img, .gallery__image a img";
 
-  if (imageLink) {
-    for (var i = 0; i < imageLink.length; i++) imageLink[i].parentNode.classList.add("image-link");
-    for (var i = 0; i < imageLink.length; i++) imageLink[i].classList.add("no-lightense");
-  }
-
-  if (lightense) {
-    // 2. 同样在初始化中仅使用 .post-image
-    Lightense(".post-image img:not(.no-lightense), .page__content img:not(.no-lightense), .post__content img:not(.no-lightense), .gallery__image img:not(.no-lightense)", {
-    padding: 60,
-    offset: 30
+  // 1. 识别并排除带链接的图片
+  const imageLinks = document.querySelectorAll(linkSelector);
+  if (imageLinks.length > 0) {
+    imageLinks.forEach(img => {
+      img.parentNode.classList.add("image-link");
+      img.classList.add("no-lightense");
     });
   }
+
+  // 2. 基础初始化函数
+  function applyLightense() {
+    const lightenseElements = document.querySelector(baseSelector);
+    if (lightenseElements) {
+      Lightense(`${baseSelector}:not(.no-lightense)`, {
+        padding: 60,
+        offset: 30
+      });
+    }
+  }
+
+  // 首次运行
+  applyLightense();
+
+  // 3. 针对懒加载和 post-image 的强化补丁
+  // 当页面所有资源（包括大图）加载完毕后再次触发
+  window.addEventListener("load", function() {
+    // 特别确保 .post-image 的图片被正确捕获
+    applyLightense(); 
+  });
+});
 
 
 
