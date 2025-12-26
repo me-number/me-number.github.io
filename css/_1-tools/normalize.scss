@@ -8,10 +8,11 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
-html {
+html, body {
   line-height: 1.15; /* 1 */
   touch-action: pan-x pan-y; /* 针对触摸屏禁止缩放 */
   -webkit-text-size-adjust: 100%; /* 2 */
+   margin: 0;margin: 0;
 }
 
 /* Sections
@@ -20,12 +21,6 @@ html {
 /**
  * Remove the margin in all browsers.
  */
-
-body {
-  touch-action: pan-x pan-y; /* 针对触摸屏禁止缩放 */
-  -webkit-text-size-adjust: 100%; /* 防止 iOS 字体自动调整
-  margin: 0;
-}
 
 /**
  * Correct the font size and margin on `h1` elements within `section` and
