@@ -1,32 +1,42 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <!-- 1. 核心：禁止缩放元标签 -->
+  <!-- 禁止缩放元标签：增加 viewport-fit=cover 适配刘海屏 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.data.settings.title }}{% endif %}</title>
-  <meta name='description' content='{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.data.settings.description }}{% endif %}'>
-
-  <!-- 2. DNS 预解析：减少外部资源（如图标、字体）连接时间 -->
-  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <meta name='description' content='{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}'>
 
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.data.settings.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
 
-  <!-- 3. 性能优化：预加载 LCP 关键图片 -->
+  <!-- DNS 预解析 -->
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+
+  <!-- 性能优化：预加载 LCP 关键图片 (路径必须与下方 img 标签完全一致) -->
   {% if site.data.settings.logo %}
-  <link rel="preload" as="image" href="{{ site.data.settings.baseurl }}{{ site.data.settings.logo }}" fetchpriority="high">
+  <link rel="preload" as="image" href="{{ site.data.settings.logo | relative_url }}" fetchpriority="high">
   {% endif %}
   {% if page.image %}
   <link rel="preload" as="image" href="{{ page.image | relative_url }}" fetchpriority="high">
   {% endif %}
-  
-  <!-- 使用 print 模式异步加载，加载完成后切换回 all。这是 2025 年最有效的非阻塞加载方式 -->
+
+  <!-- 异步加载 CSS 并内嵌关键样式，解决“屏蔽初始渲染”警告 -->
+  <style>
+    :root { --background-color: #ffffff; }
+    [dark] { --background-color: #121212; }
+    html, body { 
+      background-color: var(--background-color); 
+      margin: 0; padding: 0; 
+      touch-action: pan-x pan-y; 
+      -webkit-text-size-adjust: 100%; 
+    }
+    .post-image, .page-image { background: #eee; min-height: 250px; }
+  </style>
   <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}"></noscript>
 
-  <!-- 5. 主题色切换脚本 (内联执行，防止页面闪烁) -->
+  <!-- 主题色切换逻辑 -->
   <script>
     (function() {
       var theme = localStorage.getItem("theme");
@@ -43,22 +53,18 @@
     })();
   </script>
 
-  <!-- 6. 全平台禁止缩放脚本 -->
+  <!-- 全平台禁止缩放脚本 -->
   <script defer>
     (function() {
-      // 禁止键盘缩放
       document.addEventListener('keydown', function (e) {
         if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) e.preventDefault();
       }, { passive: false });
-      // 禁止滚轮缩放
       document.addEventListener('wheel', function (e) {
         if (e.ctrlKey || e.metaKey) e.preventDefault();
       }, { passive: false });
-      // 禁止移动端手势
       document.addEventListener('touchstart', function (e) {
         if (e.touches.length > 1) e.preventDefault();
       }, { passive: false });
-      // 禁止 iOS 双击缩放
       let lastTouch = 0;
       document.addEventListener('touchend', function (e) {
         const now = Date.now();
