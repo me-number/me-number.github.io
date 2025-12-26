@@ -8,10 +8,8 @@
   font-weight: var(--fa-style, 900); }
 
 .fas,
-.far,
 .fab,
 .fa-solid,
-.fa-regular,
 .fa-brands,
 .fa {
   -moz-osx-font-smoothing: grayscale;
@@ -23,10 +21,8 @@
   text-rendering: auto; }
 
 .fas::before,
-.far::before,
 .fab::before,
 .fa-solid::before,
-.fa-regular::before,
 .fa-brands::before,
 .fa::before {
   content: var(--fa); }
@@ -34,8 +30,7 @@
 .fa-classic,
 .fas,
 .fa-solid,
-.far,
-.fa-regular {
+.fa-brands {
   font-family: 'Font Awesome 6 Free'; }
 
 .fa-brands,
@@ -333,8 +328,8 @@
 readers do not read off random characters that represent icons */
 
 .fa-arrow-up {
-  --fa: "\f0a8";
-  --fa--fa: "\f0a8"; }
+  --fa: "\f062";
+  --fa--fa: "\f062"; }
 
 .fa-xmark {
   --fa: "\f00d";
@@ -356,30 +351,7 @@ readers do not read off random characters that represent icons */
   --fa: "\f054";
   --fa--fa: "\f054"; }
 
-/* 以下保留一些常用的图标，以防将来需要 */
-.fa-home {
-  --fa: "\f015";
-  --fa--fa: "\f015"; }
-
-.fa-user {
-  --fa: "\f007";
-  --fa--fa: "\f007"; }
-
-.fa-search {
-  --fa: "\f002";
-  --fa--fa: "\f002"; }
-
-.fa-heart {
-  --fa: "\f004";
-  --fa--fa: "\f004"; }
-
-.fa-star {
-  --fa: "\f005";
-  --fa--fa: "\f005"; }
-
-.fa-times {
-  --fa: "\f00d";
-  --fa--fa: "\f00d"; }
+/* 删除未使用的图标定义 */
 
 .sr-only,
 .fa-sr-only {
