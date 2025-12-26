@@ -24,7 +24,6 @@ _sass/1-tools/_grid.scss
 _data/settings.yml
 _includes/head.html
 _includes/header.html
-_includes/hero.html
 _includes/article.html
 _includes/pagination.html
 _includes/footer.html

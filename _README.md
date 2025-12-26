@@ -20,7 +20,6 @@ Check the theme in action [Live Demo](https://menca.netlify.app/) |
 - Clean and Modern Code
 - Optimized for mobile devices
 - Super fast performance ⚡⚡⚡
-- Social sharing buttons
 - Scroll to top button
 - Syntax highlighting (supports the Jekyll syntax highlighter)
 - Compatible with modern browsers
@@ -31,7 +30,6 @@ Check the theme in action [Live Demo](https://menca.netlify.app/) |
 - Custom logo support
 - Supports video posts
 - Supports contact form (Formspree)
-- Supports MailChimp newsletter
 - Supports Disqus comments
 - Supports Google Analytics
 - Font Awesome icons
