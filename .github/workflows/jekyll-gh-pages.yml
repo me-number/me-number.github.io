@@ -42,6 +42,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      # --- 新增步骤：运行 PurgeCSS 精简 CSS 体积 ---
+      - name: Post-process CSS with PurgeCSS
+        run: |
+          # 安装 PurgeCSS 命令行工具
+          npm install -g purgecss
+          # 扫描 _site 目录下的 html，剔除 main.css 中没用到的样式
+          # --safelist 确保深色模式和代码高亮相关的类不被删除
+          purgecss --css _site/css/main.css \
+                   --content _site/**/*.html \
+                   --output _site/css/main.css \
+                   --safelist dark dark-mode post syntax hljs
+          purgecss --css _site/css/main.scss \
+                   --content _site/**/*.html \
+                   --output _site/css/main.scss \
+                   --safelist dark dark-mode post syntax hljs
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4.0.0
