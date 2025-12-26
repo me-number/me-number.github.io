@@ -1,6 +1,6 @@
 /* Footer Info */
 .footer__info {
-  padding: 22px 0;
+  padding: 44px 0;
   background-color: var(--background-color);
 
   .footer__info-box {
@@ -10,7 +10,7 @@
   }
 
   @media only screen and (max-width: $desktop) {
-    padding: 20px 0;
+    padding: 40px 0;
   }
 }
 
