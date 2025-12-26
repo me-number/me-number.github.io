@@ -15,22 +15,8 @@
   {% if site.data.settings.logo %}
   <link rel="preload" as="image" href="{{ site.data.settings.logo | relative_url }}" fetchpriority="high">
   {% endif %}
-  {% if page.image %}
-  <link rel="preload" as="image" href="{{ page.image | relative_url }}" fetchpriority="high">
-  {% endif %}
-
-  <!-- 异步加载 CSS 并内嵌关键样式，解决“屏蔽初始渲染”警告 -->
-  <style>
-    :root { --background-color: #ffffff; }
-    [dark] { --background-color: #121212; }
-    html, body { 
-      background-color: var(--background-color); 
-      margin: 0; padding: 0; 
-      touch-action: pan-x pan-y; 
-      -webkit-text-size-adjust: 100%; 
-    }
-    .post-image, .page-image { background: #eee; min-height: 250px; }
-  </style>
+  
+  <!-- 性能优化：延迟加载 CSS -->
   <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}"></noscript>
 
