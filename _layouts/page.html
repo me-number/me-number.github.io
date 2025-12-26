@@ -7,25 +7,28 @@ layout: default
     <div class="row">
 
       {% if page.video_embed %}
-      <div class="col col-12">
-        <div class="page-video">
-          <div class="page-video__wrap">
-            <iframe src="{{ page.video_embed }}" loading="lazy" width="640" height="360" frameborder="0"
-              webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <div class="col col-12">
+          <div class="page-video">
+            <div class="page-video__wrap">
+              <!-- 视频可以保留 loading="lazy"，因为它通常不是 LCP 元素且资源较重 -->
+              <iframe src="{{ page.video_embed }}" loading="lazy" width="640" height="360" frameborder="0"
+                webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
           </div>
         </div>
-      </div>
 
-      {% else page.id or page.path contains '_pages' or page.url contains '404' %}
-
-      {%if page.image %}
-      <div class="col col-12">
-        <div class="page-image">
-          <img class="lazy" data-src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+      {% elsif page.image %}
+        <!-- 核心优化：针对 LCP 图像，取消懒加载，确保 HTML 扫描器立即发现 -->
+        <div class="col col-12">
+          <div class="page-image">
+            <img 
+              src="{{ page.image | relative_url }}" 
+              alt="{{ page.title | escape }}"
+              fetchpriority="high"
+              decoding="async"
+            >
+          </div>
         </div>
-      </div>
-      {% endif %}
-
       {% endif %}
 
       <div class="col col-12">
@@ -39,17 +42,15 @@ layout: default
 
 <!-- begin page -->
 <div class="container animate">
-
   <article class="page">
     <div class="page__content">
       {{ content }}
     </div>
   </article>
-
 </div>
 <!-- end page -->
 
-{% if page.name == '404.html' %}
+{% if page.url contains '404' %}
 <!-- begin recent posts -->
 <div class="recent-posts animate">
   <div class="container">
@@ -59,7 +60,7 @@ layout: default
           <div class="section__info">
             <div class="section__head">
               <h2 class="section__title">Recent Posts</h2>
-              <a class="section__link" href="{{site.data.settings.baseurl}}/">Back to homepage</a>
+              <a class="section__link" href="{{ '/' | relative_url }}">Back to homepage</a>
             </div>
           </div>
         </div>
