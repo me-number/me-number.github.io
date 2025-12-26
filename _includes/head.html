@@ -21,22 +21,6 @@
   {% if page.image %}
   <link rel="preload" as="image" href="{{ page.image | relative_url }}" fetchpriority="high">
   {% endif %}
-
-  <!-- 4. 解决“屏蔽渲染”警告：异步加载主 CSS，并内嵌关键样式 -->
-  <style>
-    /* 内嵌核心 CSS：确保背景颜色和基础结构瞬间显示，不等待 main.css 下载 */
-    :root { --background-color: #ffffff; --heading-font-color: #000000; }
-    [dark] { --background-color: #121212; --heading-font-color: #ffffff; }
-    html, body { 
-      background-color: var(--background-color); 
-      margin: 0; padding: 0; 
-      touch-action: pan-x pan-y; 
-      -webkit-text-size-adjust: 100%; 
-    }
-    .header, .post-head { display: block; }
-    /* 预留图片容器位置，防止布局偏移 */
-    .post-image, .page-image { background: var(--background-alt-color, #eee); min-height: 250px; }
-  </style>
   
   <!-- 使用 print 模式异步加载，加载完成后切换回 all。这是 2025 年最有效的非阻塞加载方式 -->
   <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}" media="print" onload="this.media='all'">
