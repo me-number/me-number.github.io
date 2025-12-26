@@ -165,18 +165,4 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-
-  /* =======================
-  // Scroll Top Button
-  ======================= */
-  btnScrollToTop.addEventListener("click", function () {
-    if (window.scrollY != 0) {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth"
-      })
-    }
-  });
-
 });
