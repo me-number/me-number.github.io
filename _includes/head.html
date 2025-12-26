@@ -1,43 +1,57 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <!-- 禁止缩放元标签：增加 viewport-fit=cover 适配刘海屏 -->
+  <!-- 禁止缩放元标签：增加 viewport-fit=cover 适配全面屏 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.data.settings.title }}{% endif %}</title>
   <meta name='description' content='{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.data.settings.description }}{% endif %}'>
 
+  <!-- 1. DNS 预解析 -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.data.settings.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
 
-
-  <!-- 性能优化：预加载 LCP 关键图片 (路径必须与下方 img 标签完全一致) -->
+  <!-- 2. 性能优化：精准预加载 LCP 图片 -->
   {% if site.data.settings.logo %}
   <link rel="preload" as="image" href="{{ site.data.settings.logo | relative_url }}" fetchpriority="high">
   {% endif %}
-  {% if page.image %}
-  <!-- 1. relative_url 确保路径正确 -->
-  <!-- 2. fetchpriority="high" 让图片下载在所有资源中排队第一 -->
+  <!-- 逻辑：仅在详情页预加载，首页不预加载 page.image 以免产生 404 或资源竞争 -->
+  {% if page.image and page.url != "/" %}
   <link rel="preload" as="image" href="{{ page.image | relative_url }}" fetchpriority="high">
   {% endif %}
 
+  <!-- 3. 内嵌关键 CSS 解决“屏蔽渲染”并优化禁止缩放 -->
+  <style>
+    :root { --background-color: #ffffff; }
+    [dark] { --background-color: #121212; }
+    html, body { 
+      background-color: var(--background-color); 
+      margin: 0; padding: 0; 
+      touch-action: pan-x pan-y; /* 锁定 CSS 层面缩放 */
+      -webkit-text-size-adjust: 100%; 
+    }
+    .post-image, .page-image, .article__image { background: #eee; min-height: 200px; }
+  </style>
 
+  <!-- 4. 异步加载主 CSS (带时间戳) -->
+  <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M' }}" media="print" onload="this.media='all'">
   
-  <!-- 将原来的 CSS 引用修改为带时间戳的版本 -->
-  <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M' }}">
+  <!-- 5. 纯 CSS 引入 Font Awesome 6.7.2 (消除 JS 警告) -->
+  <link rel="stylesheet" href="cdnjs.cloudflare.com" media="print" onload="this.media='all'">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700;900&display=swap" as="style">
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- 6. 字体优化：确保 display=swap 且异步加载 -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'">
 
-  <!-- 4. 备选方案：如果用户禁用了 JS，则正常加载 CSS -->
   <noscript>
-    <!-- 将原来的 CSS 引用修改为带时间戳的版本 -->
     <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M' }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700;900&display=swap">
+    <link rel="stylesheet" href="cdnjs.cloudflare.com">
   </noscript>
 
-  <!-- 主题色切换逻辑 -->
+  <!-- 7. 主题色切换脚本 -->
   <script>
     (function() {
       var theme = localStorage.getItem("theme");
@@ -54,18 +68,21 @@
     })();
   </script>
 
-  <!-- 全平台禁止缩放脚本 -->
+  <!-- 8. 全平台禁止缩放脚本 -->
   <script defer>
     (function() {
+      // 键盘与滚轮
       document.addEventListener('keydown', function (e) {
         if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) e.preventDefault();
       }, { passive: false });
       document.addEventListener('wheel', function (e) {
         if (e.ctrlKey || e.metaKey) e.preventDefault();
       }, { passive: false });
+      // 移动端多指
       document.addEventListener('touchstart', function (e) {
         if (e.touches.length > 1) e.preventDefault();
       }, { passive: false });
+      // iOS 双击
       let lastTouch = 0;
       document.addEventListener('touchend', function (e) {
         const now = Date.now();
