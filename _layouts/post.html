@@ -6,28 +6,29 @@ layout: default
   <div class="container">
     <div class="row">
       
+      <!-- 1. 媒体区域（视频或图片） -->
       {% if page.video_embed %}
-      <!-- 视频区域 -->
-      <div class="col col-12">
-        <div class="post-video">
-          <div class="post-video__wrap">
-            <iframe src="{{ page.video_embed }}" loading="lazy" frameborder="0" allowfullscreen></iframe>
+        <div class="col col-12">
+          <div class="post-video">
+            <div class="post-video__wrap">
+              <iframe src="{{ page.video_embed }}" loading="lazy" frameborder="0" allowfullscreen></iframe>
+            </div>
           </div>
         </div>
-      </div>
       {% elsif page.image %}
-      <!-- 图片区域 -->
-      <div class="col col-12">
-        <div class="post-image">
-          <img class="lazy" data-src="{{site.baseurl}}{{page.image}}" alt="{{page.title}}">
+        <div class="col col-12">
+          <div class="post-image">
+            <img class="lazy" data-src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+          </div>
         </div>
-      </div>
       {% endif %}
       
-      <!-- 文字信息区域 -->
+      <!-- 2. 文字信息区域（标题和标签） -->
       <div class="col col-12">
-        <!-- 统一使用 post__info，它在 CSS 中已限制 760px 居中 -->
+        <!-- 统一使用 post__info，不再区分 video 类 -->
         <div class="post__info">
+          
+          <!-- 标签展示 -->
           {% if page.tags.size >= 1 %}
             <div class="post__tags">
               {% for tag in page.tags %}
@@ -35,13 +36,17 @@ layout: default
               {% endfor %}
             </div>
           {% endif %}
+          
+          <!-- 标题展示 -->
           <h1 class="post__title">{{ page.title | escape }}</h1>
+          
         </div>
       </div>
 
     </div>
   </div>
 </div>
+
 
 <!-- begin post -->
 <div class="container animate">
