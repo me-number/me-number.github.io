@@ -17,14 +17,31 @@
 
       {% if post.image %}
       <a class="article__image" href="{{ post.url | relative_url }}">
-        <img class="lazy" data-src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+        {% if forloop.index0 == 0 %}
+          <!-- 1. 第一篇文章：作为 LCP 候选，取消懒加载，设置高优先级 -->
+          <img 
+            src="{{ post.image | relative_url }}" 
+            alt="{{ post.title }}" 
+            fetchpriority="high" 
+            decoding="async"
+          >
+        {% else %}
+          <!-- 2. 其他文章：使用原生懒加载，节省首屏流量 -->
+          <img 
+            class="lazy" 
+            data-src="{{ post.image | relative_url }}" 
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            alt="{{ post.title }}"
+            loading="lazy"
+            decoding="async"
+          >
+        {% endif %}
       </a>
       {% endif %}
 
     </div>
 
     <div class="article__content">
-
       <h2 class="article__title">
         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
       </h2>
@@ -32,7 +49,6 @@
       {% if post.description %}
       <p class="article__excerpt">{{ post.description }}</p>
       {% endif %}
-
     </div>
   </div>
 </div>
