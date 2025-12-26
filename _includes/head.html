@@ -17,8 +17,8 @@
   {% endif %}
 
   
-  <!-- 2. 异步加载主 CSS (非阻塞模式) -->
-  <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
+  <!-- 将原来的 CSS 引用修改为带时间戳的版本 -->
+  <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M' }}">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -27,7 +27,8 @@
 
   <!-- 4. 备选方案：如果用户禁用了 JS，则正常加载 CSS -->
   <noscript>
-    <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
+    <!-- 将原来的 CSS 引用修改为带时间戳的版本 -->
+    <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M' }}">
   </noscript>
 
   <!-- 主题色切换逻辑 -->
