@@ -4,19 +4,19 @@
   <!-- 适配全面屏 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.data.settings.title }}{% endif %}</title>
-  <meta name='description' content='{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.data.settings.description }}{% endif %}'>
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name='description' content='{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}'>
 
   <!-- 【核心修复】解决 Google "不是绝对网址" 错误 -->
   <!-- 逻辑：先拼接绝对域名，再移除末尾的 index.html -->
   <link rel="canonical" href="{{ page.url | absolute_url | replace:'index.html','' }}">
   
   <!-- RSS 建议也使用 absolute_url -->
-  <link rel="alternate" type="application/rss+xml" title="{{ site.data.settings.title | escape }}" href="{{ '/feed.xml' | absolute_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | absolute_url }}">
 
   <!-- 1. 性能优化：预加载 LCP 关键图片 -->
-  {% if site.data.settings.logo %}
-  <link rel="preload" as="image" href="{{ site.data.settings.logo | relative_url }}" fetchpriority="high">
+  {% if site.logo %}
+  <link rel="preload" as="image" href="{{ site.logo | relative_url }}" fetchpriority="high">
   {% endif %}
   {% if page.image and page.url != "/" %}
   <link rel="preload" as="image" href="{{ page.image | relative_url }}" fetchpriority="high">
@@ -38,7 +38,7 @@
   <script>
     (function() {
       var theme = localStorage.getItem("theme");
-      var config = "{{ site.data.settings.color_scheme }}";
+      var config = "{{ site.color_scheme }}";
       var isDark = theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
       var initialBg = isDark ? "#121212" : "#ffffff";
       document.documentElement.style.backgroundColor = initialBg;
