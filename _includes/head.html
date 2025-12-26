@@ -10,9 +10,6 @@
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.data.settings.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
 
-  <!-- DNS 预解析 -->
-  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-  <link rel="stylesheet" href="cdnjs.cloudflare.com">
 
   <!-- 性能优化：预加载 LCP 关键图片 (路径必须与下方 img 标签完全一致) -->
   {% if site.data.settings.logo %}
