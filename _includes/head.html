@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.data.settings.title }}{% endif %}</title>
-  <meta name='description' content='{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}'>
+  <meta name='description' content='{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.data.settings.description }}{% endif %}'>
 
   <!-- 2. DNS 预解析：减少外部资源（如图标、字体）连接时间 -->
   <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
@@ -16,7 +16,7 @@
 
   <!-- 3. 性能优化：预加载 LCP 关键图片 -->
   {% if site.data.settings.logo %}
-  <link rel="preload" as="image" href="{{ site.baseurl }}{{ site.data.settings.logo }}" fetchpriority="high">
+  <link rel="preload" as="image" href="{{ site.data.settings.baseurl }}{{ site.data.settings.logo }}" fetchpriority="high">
   {% endif %}
   {% if page.image %}
   <link rel="preload" as="image" href="{{ page.image | relative_url }}" fetchpriority="high">

@@ -27,7 +27,7 @@ layout: default
           <div class="post-image">
           <img 
           class="lazy" 
-          data-src="{{site.baseurl}}{{page.image}}" 
+          data-src="{{sitedata.settings.baseurl}}{{page.image}}" 
           alt="{{page.title}}" 
           width="640" 
           height="360"
@@ -45,7 +45,7 @@ layout: default
           {% if page.tags.size >= 1 %}
             <div class="post__tags">
               {% for tag in page.tags %}
-                <a href="{{ site.baseurl }}/tags#{{ tag }}" class="post__tag">{{ tag }}</a>
+                <a href="{{ site.data.settings.baseurl }}/tags#{{ tag }}" class="post__tag">{{ tag }}</a>
               {% endfor %}
             </div>
           {% endif %}
