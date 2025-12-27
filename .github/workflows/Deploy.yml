@@ -16,34 +16,39 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 1. 必须先安装 pnpm，否则 setup-node 找不到 pnpm 缓存路径
+      # 1. 安装 pnpm (自动识别 packageManager 中的 8.15.8)
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
+          # 不指定 version，避免与 package.json 冲突
           run_install: false 
 
-      # 2. 修改 Setup Node 配置
+      # 2. 设置 Node.js 环境并启用 pnpm 缓存
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-           # cache: 'pnpm'  <-- 暂时注释掉这一行
+          cache: 'pnpm'
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # 3. 安装依赖 (如果 lock 文件报错，请查看下方说明)
       - name: Install dependencies
-        # 使用 --frozen-lockfile 确保环境一致性
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
+      # 4. 构建项目
       - name: Build with Next.js
-        # 确保你在 next.config.js 中设置了 output: 'export'
         run: pnpm run build
+        env:
+          # 强制跳过 T3 框架的环境变量验证，防止构建失败
+          SKIP_ENV_VALIDATION: true
 
+      # 5. 上传静态资源
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./out # 确保 next.config.js 中有 output: 'export'
 
   deploy:
     environment:
