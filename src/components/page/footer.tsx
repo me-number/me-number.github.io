@@ -7,7 +7,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 import { BasicsProps } from '@/components/type';
 
-import { FutiIcon } from '@/assets/svg/futi.tsx';
 import { cn } from '@/lib/utils.ts';
 
 type IFooterProps = BasicsProps;
@@ -18,14 +17,13 @@ export const Footer: React.FC<IFooterProps> = ({ className, style }) => {
       <Tooltip>
         <TooltipTrigger asChild>
           <motion.a
-            href="https://www.futiwolf.com"
+            href="https://www.zhang-wentao.cn"
             className={cn('futi-center font-russoOne text-opacity-15 relative cursor-pointer text-xs text-[#737373] select-none', className)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, transition: { delay: 1 } }}
             transition={{ duration: 0.2 }}
           >
             Drawn by NAVILAB
-            <FutiIcon className="absolute h-7 [&>path]:fill-white/20" />
           </motion.a>
         </TooltipTrigger>
         <TooltipContent sideOffset={16}>Drawn by Navigator Kepler</TooltipContent>
